@@ -22,12 +22,9 @@ public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         boolean addClient = false;
-        try {
-             addClient = new BankClientService().addClient(new BankClient(req.getParameter("name"),
-                    req.getParameter("password"),
-                    Long.parseLong(req.getParameter("money"))));
-        } catch (DBException e) {
-        }
+        addClient = new BankClientService().addClient(new BankClient(req.getParameter("name"),
+               req.getParameter("password"),
+               Long.parseLong(req.getParameter("money"))));
 
         String message = addClient ? "Add client successful" : "Client not add";
 

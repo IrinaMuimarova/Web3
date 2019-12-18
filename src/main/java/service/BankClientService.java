@@ -16,46 +16,45 @@ public class BankClientService {
 
     }
 
-    public BankClient getClientById(long id) throws DBException {
+    public BankClient getClientById(long id) {
         try {
             return getBankClientDAO().getClientById(id);
         } catch (SQLException e) {
-            throw new DBException(e);
         }
+        return null;
     }
 
-    public BankClient getClientByName(String name) throws DBException {
+    public BankClient getClientByName(String name)  {
         try {
             return getBankClientDAO().getClientByName(name);
-        } catch (SQLException e){
-            throw new DBException(e);
+        } catch (SQLException e) {
         }
+        return null;
     }
 
     public List<BankClient> getAllClient() {
         try {
             return getBankClientDAO().getAllBankClient();
         } catch (SQLException e){
-            e.printStackTrace();
         }
         return null;
     }
 
-    public boolean deleteClient(String name) throws DBException {
+    public boolean deleteClient(String name) {
         try {
             return getBankClientDAO().deleteBankClient(name);
         } catch (SQLException e){
-            throw new DBException(e);
         }
+        return false;
     }
 
-    public boolean addClient(BankClient client) throws DBException {
+    public boolean addClient(BankClient client) {
         try {
             getBankClientDAO().addClient(client);
             return true;
         } catch (SQLException e) {
-            throw new DBException(e);
         }
+        return false;
     }
 
     public boolean sendMoneyToClient(BankClient sender, String name, Long value) {
@@ -66,27 +65,24 @@ public class BankClientService {
                 getBankClientDAO().updateClientsMoney(name, recipient.getPassword(), value);
                 return true;
             }
-        } catch (DBException | SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
         }
         System.out.println("Недостаточно средств.");
         return false;
     }
 
-    public void cleanUp() throws DBException {
+    public void cleanUp() {
         BankClientDAO dao = getBankClientDAO();
         try {
             dao.dropTable();
-        } catch (SQLException e) {
-            throw new DBException(e);
+        } catch (SQLException ignored) {
         }
     }
-    public void createTable() throws DBException{
+    public void createTable(){
         BankClientDAO dao = getBankClientDAO();
         try {
             dao.createTable();
         } catch (SQLException e) {
-            throw new DBException(e);
         }
     }
 

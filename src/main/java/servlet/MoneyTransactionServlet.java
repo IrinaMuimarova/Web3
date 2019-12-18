@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,10 +31,7 @@ public class MoneyTransactionServlet extends HttpServlet {
         Long count = Long.parseLong(req.getParameter("count"));
         String nameTo = req.getParameter("nameTo");
         BankClient client = null;
-        try {
-            client = bankClientService.getClientByName(nameSender);
-        } catch (DBException e) {
-        }
+        client = bankClientService.getClientByName(nameSender);
         boolean result = false;
         if (client != null && client.getPassword().equals(passwordSender)) {
             result = bankClientService.sendMoneyToClient(client, nameTo, count);
